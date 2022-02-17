@@ -60,15 +60,15 @@ class _BarChart extends StatelessWidget {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return top5[0].aerolinea;
+                return '${top5[0].origen}-${top5[0].origen}';
               case 1:
-                return top5[1].aerolinea;
+                return '${top5[1].origen}-${top5[1].origen}';
               case 2:
-                return top5[2].aerolinea;
+                return '${top5[2].origen}-${top5[2].origen}';
               case 3:
-                return top5[3].aerolinea;
+                return '${top5[3].origen}-${top5[3].origen}';
               case 4:
-                return top5[4].aerolinea;
+                return '${top5[4].origen}-${top5[4].origen}';
               default:
                 return '';
             }
