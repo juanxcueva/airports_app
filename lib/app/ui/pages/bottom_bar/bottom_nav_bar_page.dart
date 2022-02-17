@@ -40,7 +40,7 @@ class BottomNavBarPage extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: currentIndex == key
-                              ? Colors.blue[600]
+                              ? AppColors.color2
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(20.0),
                         ),

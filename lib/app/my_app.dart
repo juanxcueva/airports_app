@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: Colors.white,
             visualDensity: VisualDensity.adaptivePlatformDensity),
-        initialRoute: Routes.bottomBar,
+        initialRoute: Routes.splash,
         routes: routes,
         navigatorObservers: [
           router.observer,

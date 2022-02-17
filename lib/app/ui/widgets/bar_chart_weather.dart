@@ -1,11 +1,11 @@
-import 'package:aeropuertos_big_data/app/domain/models/RetrasosSalida.dart';
+import 'package:aeropuertos_big_data/app/domain/models/RetrasoWeather.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class _BarChart extends StatelessWidget {
   const _BarChart({Key? key, required this.top5}) : super(key: key);
 
-  final List<RetrasosSalida> top5;
+  final List<RetrasoWeather> top5;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class _BarChart extends StatelessWidget {
         borderData: borderData,
         barGroups: top5[0]!=[] ?getbarGroups(top5) :[], //Esta
         alignment: BarChartAlignment.spaceAround,
-        maxY: 1800,
+        maxY: 100,
       ),
     );
   }
@@ -45,7 +45,7 @@ class _BarChart extends StatelessWidget {
       );
 
   
-  FlTitlesData getTitulos(List<RetrasosSalida> top5){
+  FlTitlesData getTitulos(List<RetrasoWeather> top5){
 
     return FlTitlesData(
         show: true,
@@ -60,15 +60,15 @@ class _BarChart extends StatelessWidget {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return '${top5[0].origen}-${top5[0].destino}';
+                return top5[0].aerolinea;
               case 1:
-                return '${top5[1].origen}-${top5[1].destino}';
+                return top5[1].aerolinea;
               case 2:
-                return '${top5[2].origen}-${top5[2].destino}';
+                return top5[2].aerolinea;
               case 3:
-                return '${top5[3].origen}-${top5[3].destino}';
+                return top5[3].aerolinea;
               case 4:
-                return '${top5[4].origen}-${top5[4].destino}';
+                return top5[4].aerolinea;
               default:
                 return '';
             }
@@ -86,13 +86,13 @@ class _BarChart extends StatelessWidget {
         show: false,
       );
 
-  List<BarChartGroupData> getbarGroups(List<RetrasosSalida> top5){
+  List<BarChartGroupData> getbarGroups(List<RetrasoWeather> top5){
     return [
         BarChartGroupData(
           x: 0,
           barRods: [
             BarChartRodData(
-                y: top5[0].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                y: top5[0].retrasosAerolinea.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
@@ -100,7 +100,7 @@ class _BarChart extends StatelessWidget {
           x: 1,
           barRods: [
             BarChartRodData(
-                y: top5[1].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                y: top5[1].retrasosAerolinea.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
@@ -108,7 +108,7 @@ class _BarChart extends StatelessWidget {
           x: 2,
           barRods: [
             BarChartRodData(
-                y: top5[2].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                y: top5[2].retrasosAerolinea.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
@@ -116,7 +116,7 @@ class _BarChart extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-                y: top5[3].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                y: top5[3].retrasosAerolinea.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
@@ -124,7 +124,7 @@ class _BarChart extends StatelessWidget {
           x: 3,
           barRods: [
             BarChartRodData(
-                y: top5[4].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+                y: top5[4].retrasosAerolinea.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
           ],
           showingTooltipIndicators: [0],
         ),
@@ -135,7 +135,7 @@ class _BarChart extends StatelessWidget {
 class BarChartSample2 extends StatelessWidget {
   const BarChartSample2({Key? key, required this.top5}) : super(key: key);
 
-  final List<RetrasosSalida> top5;
+  final List<RetrasoWeather> top5;
   @override
   Widget build(BuildContext context) {
     return AspectRatio(

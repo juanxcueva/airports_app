@@ -1,29 +1,28 @@
-import 'package:aeropuertos_big_data/app/domain/models/RetrasosSalida.dart';
-import 'package:aeropuertos_big_data/app/domain/repository/route_repository.dart';
-import 'package:aeropuertos_big_data/app/domain/responses/AirportRouteLlegadaResponse.dart';
-import 'package:aeropuertos_big_data/app/domain/responses/AirportRouteResponse.dart';
-import 'package:aeropuertos_big_data/app/ui/pages/splash/splash_page.dart';
+import 'package:aeropuertos_big_data/app/domain/models/RetrasoAirline.dart';
+import 'package:aeropuertos_big_data/app/domain/repository/airline_repository.dart';
+import 'package:aeropuertos_big_data/app/domain/responses/AirportAirlinesResponse.dart';
+import 'package:aeropuertos_big_data/app/ui/pages/delays_airlines/delays_airlines_page.dart';
 import 'package:aeropuertos_big_data/app/ui/theme/styles.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_meedu/flutter_meedu.dart';
 
-class DelayRoutesController extends SimpleNotifier {
-  final _routeRepository = Get.i.find<RouteRepository>();
+class DelayAirlinesController extends SimpleNotifier {
+  final _airportRepository = Get.i.find<AirlineRepository>();
 
-  DelayRoutesController() {
+  DelayAirlinesController() {
     init();
   }
   //variables
   int _currentIndex = 0;
-  List<String> _columns = ['Origen', 'Destino', 'Retrasos'];
-  List<RetrasosSalida> _retrasos = [];
+  List<String> _columns = ['Aerolinea', 'Retrasos'];
+  List<RetrasoAirline> _retrasos = [];
   int? _sortColumnIndex;
   bool _isAscending = false;
 
   String _retrasosTot = "";
   String _rutaMas = "";
-  List<RetrasosSalida> _top5 = [];
+  List<RetrasoAirline> _top5 = [];
   bool _disposed = false;
 
   //Gets
@@ -34,11 +33,9 @@ class DelayRoutesController extends SimpleNotifier {
   String get retrasosTot => _retrasosTot;
 
   List<String> get columns => _columns;
-  List<RetrasosSalida> get retrasos => _retrasos;
-  List<RetrasosSalida> get top5 => _top5;
-
+  List<RetrasoAirline> get retrasos => _retrasos;
+  List<RetrasoAirline> get top5 => _top5;
   //set's
-
   set currentIndex(int value) {
     _currentIndex = value;
     notify(['index']);
@@ -69,14 +66,14 @@ class DelayRoutesController extends SimpleNotifier {
     notify(['columns']);
   }
 
-  set retrasos(List<RetrasosSalida> value) {
+  set retrasos(List<RetrasoAirline> value) {
     _retrasos = value;
     notify(['filas']);
   }
 
-  set top5(List<RetrasosSalida> value) {
+  set top5(List<RetrasoAirline> value) {
     _top5 = value;
-    notify(['retrasosTOP']);
+    notify(['topRetrasos']);
   }
 
   //methods
@@ -95,16 +92,15 @@ class DelayRoutesController extends SimpleNotifier {
           ))
       .toList();
 
-  List<DataRow> getRows(List<RetrasosSalida> retrasos) =>
-      retrasos.map((RetrasosSalida retraso) {
-        final cells = [retraso.origen, retraso.destino, retraso.retrasosSalida];
+  List<DataRow> getRows(List<RetrasoAirline> retrasos) =>
+      retrasos.map((RetrasoAirline retraso) {
+        final cells = [retraso.aerolinea, retraso.retrasosSalida];
 
         return DataRow(cells: getCells(cells));
       }).toList();
 
   List<DataCell> getCells(List<dynamic> cells) => cells
       .map((data) => DataCell(Container(
-          width: 95,
           child: Text(
             '$data',
             style: TextStyle(color: Colors.white),
@@ -114,14 +110,12 @@ class DelayRoutesController extends SimpleNotifier {
   void onSort(int columnIndex, bool ascending) {
     if (columnIndex == 0) {
       _retrasos.sort((airport1, airport2) =>
-          compareString(ascending, airport1.origen, airport2.origen));
-    } else if (columnIndex == 1) {
-      _retrasos.sort((airport1, airport2) =>
-          compareString(ascending, airport1.destino, airport2.destino));
-    } else if (columnIndex == 2) {
-      _retrasos.sort((airport1, airport2) => compareString(ascending,
-          '${airport1.retrasosSalida}', '${airport2.retrasosSalida}'));
+          compareString(ascending, airport1.aerolinea, airport2.aerolinea));
     }
+    // } else if (columnIndex == 1) {
+    //   _retrasos.sort((airport1, airport2) =>
+    //       compareString(ascending, airport1.retrasosSalida, airport2.retrasosSalida));
+    // }
 
     sortColumnIndex = columnIndex;
     isAscending = ascending;
@@ -158,7 +152,7 @@ class DelayRoutesController extends SimpleNotifier {
             onTap: (index) async {
               if (index == 0) {
                 Map<String, dynamic> response =
-                    await _routeRepository.getRoutes(tipo: 'salida');
+                    await _airportRepository.getAirlines(tipo: 'salida');
                 if (response['error'] != null) {
                   Map<String, dynamic> map = {
                     "estado": -1,
@@ -167,26 +161,27 @@ class DelayRoutesController extends SimpleNotifier {
                 } else {
                   print("llego aqui a pedir");
                   // print(response['data']);
-                  AirportRouteResponse respuesta =
-                      AirportRouteResponse.fromMap(response['data']);
+                  AirportAirlinesResponse respuesta =
+                      AirportAirlinesResponse.fromMap(response['data']);
                   print(respuesta.toMap());
                   getData(respuesta);
                 }
               } else {
                 Map<String, dynamic> response =
-                    await _routeRepository.getRoutes(tipo: 'llegada');
+                    await _airportRepository.getAirlines(tipo: 'llegada');
                 if (response['error'] != null) {
+                  print("erroroooorrr");
                   Map<String, dynamic> map = {
                     "estado": -1,
                     "msg": response['error']
                   };
                 } else {
-                  print("llego aqui a pedir");
+                  print("llego aqui a pedir llegada");
                   // print(response['data']);
-                  AirportRouteLlegadaResponse respuesta =
-                      AirportRouteLlegadaResponse.fromMap(response['data']);
+                  AirportAirlinesResponse respuesta =
+                      AirportAirlinesResponse.fromMap(response['data']);
                   print(respuesta.toMap());
-                  routesProvider.read.getDataLlegada(respuesta);
+                  airlinesProvider.read.getDataLlegada(respuesta);
                 }
               }
               print(index);
@@ -197,66 +192,77 @@ class DelayRoutesController extends SimpleNotifier {
     );
   }
 
-  void getData(AirportRouteResponse respuesta) {
+  void getData(AirportAirlinesResponse respuesta) {
     if (respuesta.totalRetrasos.toString() != "0") {
-      print("entro a setear");
       _retrasosTot = respuesta.totalRetrasos.toString();
       _rutaMas =
-          "${respuesta.retrasos![0].origen}-${respuesta.retrasos![0].destino}";
+          "${respuesta.retrasos![0].aerolinea}";
       _retrasos = respuesta.retrasos!;
       _top5=[];
       for (var i = 0; i < 5; i++) {
-        _top5.add(RetrasosSalida(
-            origen: _retrasos[i].origen.substring(0, 3),
-            destino: _retrasos[i].destino.substring(0, 3),
+        _top5.add(RetrasoAirline(
+            aerolinea: _retrasos[i].aerolinea.substring(0, 3),
             retrasosSalida: _retrasos[i].retrasosSalida));
-            
       }
     }
-    notify(['rutaMas', 'retrasosTot', 'filas', 'retrasosTOP']);
+
+    notify(['rutaMas', 'retrasosTot', 'filas', 'topRetrasos']);
     notify();
   }
 
-  void getDataLlegada(AirportRouteLlegadaResponse respuesta) {
+  void getDataLlegada(AirportAirlinesResponse respuesta) {
     // dispose();
     if (respuesta.totalRetrasos.toString() != "0") {
       _retrasosTot = respuesta.totalRetrasos.toString();
       _rutaMas =
-          "${respuesta.retrasos![0].origen}-${respuesta.retrasos![0].destino}";
+          "${respuesta.retrasos![0].aerolinea}";
       _retrasos = respuesta.retrasos!;
       _top5=[];
       for (var i = 0; i < 5; i++) {
-        _top5.add(RetrasosSalida(
-            origen: _retrasos[i].origen.substring(0, 3),
-            destino: _retrasos[i].destino.substring(0, 3),
+        _top5.add(RetrasoAirline(
+            aerolinea: _retrasos[i].aerolinea.substring(0, 3),
             retrasosSalida: _retrasos[i].retrasosSalida));
       }
     }
-
-    notify(['rutaMas', 'retrasosTot', 'filas', 'retrasosTOP']);
+    notify(['rutaMas', 'retrasosTot', 'filas', 'topRetrasos']);
     notify();
   }
 
-  Future<void> init() async {
-    // _retrasos = allRetrasos;
+  SliverPadding buildStatsTabBar() {
+    return SliverPadding(
+      padding: const EdgeInsets.all(20.0),
+      sliver: SliverToBoxAdapter(
+        child: DefaultTabController(
+          length: 3,
+          child: TabBar(
+            indicatorColor: Colors.transparent,
+            labelStyle: Styles.tabTextStyle,
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white60,
+            tabs: const <Widget>[
+              Text('Total'),
+              Text('Hoy'),
+              Text('Ayer'),
+            ],
+            onTap: (index) {},
+          ),
+        ),
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notify();
+  void init() async {
+    Map<String, dynamic> response =
+        await _airportRepository.getAirlines(tipo: 'salida');
+    if (response['error'] != null) {
+      Map<String, dynamic> map = {"estado": -1, "msg": response['error']};
+    } else {
+      print("llego aqui a pedir");
+      // print(response['data']);
+      AirportAirlinesResponse respuesta =
+          AirportAirlinesResponse.fromMap(response['data']);
+      print(respuesta.toMap());
+      getData(respuesta);
     }
   }
-
-  // @override
-  // void dispose() {
-  //   // YOUR CODE HERE
-  //   super.dispose(); // <-- you must call to the super method
-  // }
 }

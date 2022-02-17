@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 
 class StatsGrid extends StatelessWidget {
-  const StatsGrid({Key? key}) : super(key: key);
+  const StatsGrid({
+    Key? key,
+    required this.retrasos,
+    required this.ruta,
+    required this.titulo1,
+    required this.titulo2,
+  }) : super(key: key);
+
+  final String retrasos;
+  final String ruta;
+  final String titulo1;
+  final String titulo2;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.17,
       child: Column(
         children: <Widget>[
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Total Vuelos', '1.81 M', Colors.orange),
-                _buildStatCard('Retrasos', '105 K', Colors.red),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Row(
-              children: <Widget>[
-                _buildStatCard('Retrasos rutas', '391 K', Colors.green),
-                _buildStatCard('Retrasos aerolinea', '1.31 M', Colors.lightBlue),
-                _buildStatCard('Retrasos clima', 'N/A', Colors.purple),
+                _buildStatCard(titulo1, retrasos, Colors.green),
+                _buildStatCard(titulo2, ruta, Colors.orange),
               ],
             ),
           ),
@@ -30,6 +32,26 @@ class StatsGrid extends StatelessWidget {
       ),
     );
   }
+
+  // Widget buildAirlines(BuildContext context) {
+  //   return SizedBox(
+  //     height: MediaQuery.of(context).size.height * 0.15,
+  //     child: Column(
+  //       children: <Widget>[
+  //         Flexible(
+  //           child: Row(
+  //             children: <Widget>[
+  //               _buildStatCard('Retrasos Totales', '1.81 M', Colors.green),
+  //               _buildStatCard('Ruta Con Mas Retrasos', 'Cuenca-Quito', Colors.orange),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  //Va aerolineas en el eje x del grafico
 
   Expanded _buildStatCard(String title, String count, MaterialColor color) {
     return Expanded(
@@ -54,9 +76,9 @@ class StatsGrid extends StatelessWidget {
             ),
             Text(
               count,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
+                fontSize: title == "Retrasos Totales" ? 19.0 : 14.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
