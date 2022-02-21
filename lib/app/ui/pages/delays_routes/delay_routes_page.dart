@@ -33,7 +33,7 @@ class DelayRoutesPage extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: StatsGrid(
                   retrasos: retrasosTot,
-                  ruta: rutaMas, titulo1: 'Retrasos Totales', titulo2: 'Ruta Con Mas Retrasos',
+                  ruta: rutaMas, titulo1: 'Rutas con retrasos', titulo2: 'Ruta Con Mas Retrasos',
                 ),
               ),
             );
