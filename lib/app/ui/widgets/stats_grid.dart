@@ -78,7 +78,7 @@ class StatsGrid extends StatelessWidget {
               count,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: title == "Retrasos Totales" ? 19.0 : 14.0,
+                fontSize: title == "Retrasos Totales" ? 19.0 : 10.0,
                 fontWeight: FontWeight.bold,
               ),
             ),

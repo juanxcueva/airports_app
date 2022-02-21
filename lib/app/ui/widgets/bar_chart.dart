@@ -14,9 +14,9 @@ class _BarChart extends StatelessWidget {
         barTouchData: barTouchData,
         titlesData: getTitulos(top5), //Esta
         borderData: borderData,
-        barGroups: top5[0]!=[] ?getbarGroups(top5) :[], //Esta
+        barGroups: top5[0] != [] ? getbarGroups(top5) : [], //Esta
         alignment: BarChartAlignment.spaceAround,
-        maxY: 1800,
+        maxY: 1.3 * top5[0].retrasosSalida.toDouble(),
       ),
     );
   }
@@ -44,92 +44,93 @@ class _BarChart extends StatelessWidget {
         ),
       );
 
-  
-  FlTitlesData getTitulos(List<RetrasosSalida> top5){
-
+  FlTitlesData getTitulos(List<RetrasosSalida> top5) {
     return FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
-            color: Color(0xff7589a2),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          margin: 20,
-          getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return '${top5[0].origen}-${top5[0].destino}';
-              case 1:
-                return '${top5[1].origen}-${top5[1].destino}';
-              case 2:
-                return '${top5[2].origen}-${top5[2].destino}';
-              case 3:
-                return '${top5[3].origen}-${top5[3].destino}';
-              case 4:
-                return '${top5[4].origen}-${top5[4].destino}';
-              default:
-                return '';
-            }
-          },
+      show: true,
+      bottomTitles: SideTitles(
+        showTitles: true,
+        getTextStyles: (context, value) => const TextStyle(
+          color: Color(0xff7589a2),
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
         ),
-        leftTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        rightTitles: SideTitles(showTitles: false),
-      );
+        margin: 20,
+        getTitles: (double value) {
+          switch (value.toInt()) {
+            case 0:
+              return '${top5[0].origen}-${top5[0].destino}';
+            case 1:
+              return '${top5[1].origen}-${top5[1].destino}';
+            case 2:
+              return '${top5[2].origen}-${top5[2].destino}';
+            case 3:
+              return '${top5[3].origen}-${top5[3].destino}';
+            case 4:
+              return '${top5[4].origen}-${top5[4].destino}';
+            default:
+              return '';
+          }
+        },
+      ),
+      leftTitles: SideTitles(showTitles: false),
+      topTitles: SideTitles(showTitles: false),
+      rightTitles: SideTitles(showTitles: false),
+    );
   }
-  
-  
 
   FlBorderData get borderData => FlBorderData(
         show: false,
       );
 
-  List<BarChartGroupData> getbarGroups(List<RetrasosSalida> top5){
+  List<BarChartGroupData> getbarGroups(List<RetrasosSalida> top5) {
     return [
-        BarChartGroupData(
-          x: 0,
-          barRods: [
-            BarChartRodData(
-                y: top5[0].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-                y: top5[1].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-                y: top5[2].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-                y: top5[3].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-                y: top5[4].retrasosSalida.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
-  } 
+      BarChartGroupData(
+        x: 0,
+        barRods: [
+          BarChartRodData(
+              y: top5[0].retrasosSalida.toDouble(),
+              colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        ],
+        showingTooltipIndicators: [0],
+      ),
+      BarChartGroupData(
+        x: 1,
+        barRods: [
+          BarChartRodData(
+              y: top5[1].retrasosSalida.toDouble(),
+              colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        ],
+        showingTooltipIndicators: [0],
+      ),
+      BarChartGroupData(
+        x: 2,
+        barRods: [
+          BarChartRodData(
+              y: top5[2].retrasosSalida.toDouble(),
+              colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        ],
+        showingTooltipIndicators: [0],
+      ),
+      BarChartGroupData(
+        x: 3,
+        barRods: [
+          BarChartRodData(
+              y: top5[3].retrasosSalida.toDouble(),
+              colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        ],
+        showingTooltipIndicators: [0],
+      ),
+      BarChartGroupData(
+        x: 3,
+        barRods: [
+          BarChartRodData(
+              y: top5[4].retrasosSalida.toDouble(),
+              colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        ],
+        showingTooltipIndicators: [0],
+      ),
+    ];
+  }
 }
 
 class BarChartSample2 extends StatelessWidget {
@@ -144,9 +145,11 @@ class BarChartSample2 extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         color: const Color(0xff2c4260),
-        child: top5!=[] ?_BarChart(
-          top5: top5,
-        ) :Container(),
+        child: top5 != []
+            ? _BarChart(
+                top5: top5,
+              )
+            : Container(),
       ),
     );
   }

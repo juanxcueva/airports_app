@@ -38,7 +38,7 @@ class DelayAirlinesPage extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: StatsGrid(
                   retrasos: retrasosTot,
-                  ruta: rutaMas, titulo1: 'Retrasos Totales', titulo2: 'Aerolineas Con Mas Retrasos',
+                  ruta: rutaMas, titulo1: 'Aerolines con retrasos', titulo2: 'Aerolineas Con Mas Retrasos',
                 ),
               ),
             );

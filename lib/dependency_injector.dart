@@ -17,7 +17,7 @@ import 'app/domain/repository/weather_repository.dart';
 void injectDependencies() {
   //var's
   final _dio =
-      Dio(BaseOptions(baseUrl: 'https://a102-190-154-244-151.ngrok.io/api/'));
+      Dio(BaseOptions(baseUrl: 'https://9df1-186-43-227-102.ngrok.io/api/'));
   (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
       (HttpClient client) {
     client.badCertificateCallback =

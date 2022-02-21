@@ -16,7 +16,7 @@ class _BarChart extends StatelessWidget {
         borderData: borderData,
         barGroups: top5[0]!=[] ?getbarGroups(top5) :[], //Esta
         alignment: BarChartAlignment.spaceAround,
-        maxY: 100,
+        maxY: 1.3*top5[0].retrasosAerolinea.toDouble(),
       ),
     );
   }
